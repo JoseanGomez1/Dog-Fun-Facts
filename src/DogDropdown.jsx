@@ -8,7 +8,7 @@ function DogDropdown() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch the list of dog breeds
+    // Fetch the list of all the dogs
     async function fetchBreeds() {
       try {
         const response = await fetch('https://api.thedogapi.com/v1/breeds', {
@@ -31,11 +31,11 @@ function DogDropdown() {
   }, []);
 
   useEffect(() => {
-    // Fetch the selected dog breed data and images
+    // Fetch for both dog and dog data
     async function fetchData() {
       if (selectedBreed) {
         try {
-          // Fetch breed data
+          // Fetch for dog data
           const breedResponse = await fetch(
             `https://api.thedogapi.com/v1/breeds/${selectedBreed}`,
             {
@@ -51,7 +51,7 @@ function DogDropdown() {
           const breedData = await breedResponse.json();
           setDogData(breedData);
 
-          // Fetch dog images for the selected breed
+          // Fetch for dog images
           const imagesResponse = await fetch(
             `https://api.thedogapi.com/v1/images/search?breed_ids=${selectedBreed}`,
             {
@@ -81,20 +81,30 @@ function DogDropdown() {
 
   return (
     <div>
-      <h2>Select a Dog Breed:</h2>
-      <select onChange={handleSelectChange} value={selectedBreed}>
-        <option value="">Select a breed</option>
-        {dogBreeds.map((breed) => (
-          <option key={breed.id} value={breed.id}>
-            {breed.name}
-          </option>
-        ))}
-      </select>
+<h2 className="text-xl font-bold mb-4">Select a Dog Breed:</h2>
+     
+      <select
+  onChange={handleSelectChange}
+  value={selectedBreed}
+  className="border rounded p-2 shadow-md"
+>
+  <option value="">Select a breed</option>
+  {dogBreeds.map((breed) => (
+    <option key={breed.id} value={breed.id}>
+      {breed.name}
+    </option>
+  ))}
+</select>
+
       {dogData && (
         <div>
           <h3>{dogData.name}</h3>
-          <p>Weight: {dogData.weight.imperial} (Imperial) - {dogData.weight.metric} (Metric)</p>
-          <p>Height: {dogData.height.imperial} (Imperial) - {dogData.height.metric} (Metric)</p>
+          <p>
+            Weight: {dogData.weight.imperial} (Imperial) - {dogData.weight.metric} (Metric)
+          </p>
+          <p>
+            Height: {dogData.height.imperial} (Imperial) - {dogData.height.metric} (Metric)
+          </p>
           <p>Life Span: {dogData.life_span}</p>
           <p>Bred For: {dogData.bred_for}</p>
           <p>Breed Group: {dogData.breed_group}</p>
@@ -105,7 +115,12 @@ function DogDropdown() {
           <h3>Images of {dogData.name}:</h3>
           <div className="dog-images">
             {dogImages.map((image) => (
-              <img key={image.id} src={image.url} alt={dogData.name} />
+              <img
+                key={image.id}
+                src={image.url}
+                alt={dogData.name}
+                className="w-80 h-80" // Use Tailwind CSS classes for image size
+              />
             ))}
           </div>
         </div>
