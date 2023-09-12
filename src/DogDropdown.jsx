@@ -80,52 +80,52 @@ function DogDropdown() {
   };
 
   return (
-    <div>
-<h2 className="text-xl font-bold mb-4">Select a Dog Breed:</h2>
-     
+    <div className="container mx-auto p-4">
+      <h2 className="text-3xl font-bold mb-4">Select a Dog Breed:</h2>
+
       <select
-  onChange={handleSelectChange}
-  value={selectedBreed}
-  className="border rounded p-2 shadow-md"
->
-  <option value="">Select a breed</option>
-  {dogBreeds.map((breed) => (
-    <option key={breed.id} value={breed.id}>
-      {breed.name}
-    </option>
-  ))}
-</select>
+        onChange={handleSelectChange}
+        value={selectedBreed}
+        className="border rounded p-2 shadow-md mb-4"
+      >
+        <option value="">Select a breed</option>
+        {dogBreeds.map((breed) => (
+          <option key={breed.id} value={breed.id}>
+            {breed.name}
+          </option>
+        ))}
+      </select>
 
       {dogData && (
         <div>
-          <h3>{dogData.name}</h3>
-          <p>
+          <h3 className="text-2xl font-semibold mb-2">{dogData.name}</h3>
+          <p className="mb-2">
             Weight: {dogData.weight.imperial} (Imperial) - {dogData.weight.metric} (Metric)
           </p>
-          <p>
+          <p className="mb-2">
             Height: {dogData.height.imperial} (Imperial) - {dogData.height.metric} (Metric)
           </p>
-          <p>Life Span: {dogData.life_span}</p>
-          <p>Bred For: {dogData.bred_for}</p>
-          <p>Breed Group: {dogData.breed_group}</p>
+          <p className="mb-2">Life Span: {dogData.life_span}</p>
+          <p className="mb-2">Bred For: {dogData.bred_for}</p>
+          <p className="mb-2">Breed Group: {dogData.breed_group}</p>
         </div>
       )}
       {dogImages.length > 0 && (
         <div>
-          <h3>Images of {dogData.name}:</h3>
-          <div className="dog-images">
+          <h3 className="text-2xl font-semibold mb-2">Images of {dogData.name}:</h3>
+          <div className="flex justify-center items-center">
             {dogImages.map((image) => (
               <img
                 key={image.id}
                 src={image.url}
                 alt={dogData.name}
-                className="w-80 h-80" // Use Tailwind CSS classes for image size
+                className="w-80 h-80 object-cover rounded-lg shadow-md m-2"
               />
             ))}
           </div>
         </div>
       )}
-      {error && <div>Error: {error}</div>}
+      {error && <div className="text-red-600">Error: {error}</div>}
     </div>
   );
 }

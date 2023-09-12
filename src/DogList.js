@@ -1,12 +1,11 @@
-// DogList.js
 import React, { useState, useEffect } from 'react';
 
 function DogList() {
   const [dogBreeds, setDogBreeds] = useState([]);
   const [error, setError] = useState(null);
+  const [randomBreeds, setRandomBreeds] = useState([]);
 
   useEffect(() => {
-    // Fetch the list of dog breeds
     async function fetchBreeds() {
       try {
         const response = await fetch('https://api.thedogapi.com/v1/breeds', {
@@ -20,6 +19,17 @@ function DogList() {
         }
         const data = await response.json();
         setDogBreeds(data);
+
+        // Select 6 random dog breeds
+        const randomIndexes = [];
+        while (randomIndexes.length < 6) {
+          const randomIndex = Math.floor(Math.random() * data.length);
+          if (!randomIndexes.includes(randomIndex)) {
+            randomIndexes.push(randomIndex);
+          }
+        }
+        const randomBreeds = randomIndexes.map((index) => data[index]);
+        setRandomBreeds(randomBreeds);
       } catch (error) {
         setError(error.message);
       }
@@ -30,15 +40,20 @@ function DogList() {
 
   return (
     <div>
-      <h2>List of Dog Breeds:</h2>
-      <ul>
-        {dogBreeds.map((breed) => (
-          <li key={breed.id}>{breed.name}</li>
+      <h2 className="text-2xl font-bold mb-4">Suggested Dogs:</h2>
+      <ul className="flex flex-wrap items-center justify-center text-gray-900 dark:text-white">
+        {randomBreeds.map((breed) => (
+          <li key={breed.id}>
+            <a href="#" className="mr-4 hover:underline md:mr-6">
+              {breed.name}
+            </a>
+          </li>
         ))}
       </ul>
-      {error && <div>Error: {error}</div>}
     </div>
   );
 }
 
 export default DogList;
+
+
