@@ -7,10 +7,10 @@
 
 # Screenshots
 # Technolgy Used
-1. Mern stack
-- Mongo DB
 - Express
 - React
 - Node
-2. CSS
+- CSS
+- Tail wind CSS
+- The Dog API
   
